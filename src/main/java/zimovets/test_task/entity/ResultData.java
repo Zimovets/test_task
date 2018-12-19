@@ -50,6 +50,14 @@ public class ResultData {
         this.num = num;
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -65,18 +73,18 @@ public class ResultData {
 
         ResultData that = (ResultData) o;
 
-        if (!id.equals(that.id)) return false;
-        if (!num.equals(that.num)) return false;
-        if (!result.equals(that.result)) return false;
-        return createTime.equals(that.createTime);
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (num != null ? !num.equals(that.num) : that.num != null) return false;
+        if (result != null ? !result.equals(that.result) : that.result != null) return false;
+        return createTime != null ? createTime.equals(that.createTime) : that.createTime == null;
     }
 
     @Override
     public int hashCode() {
-        int result1 = id.hashCode();
-        result1 = 31 * result1 + num.hashCode();
-        result1 = 31 * result1 + result.hashCode();
-        result1 = 31 * result1 + createTime.hashCode();
+        int result1 = id != null ? id.hashCode() : 0;
+        result1 = 31 * result1 + (num != null ? num.hashCode() : 0);
+        result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
+        result1 = 31 * result1 + (createTime != null ? createTime.hashCode() : 0);
         return result1;
     }
 }

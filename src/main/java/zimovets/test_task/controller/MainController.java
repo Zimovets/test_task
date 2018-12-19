@@ -18,6 +18,7 @@ import zimovets.test_task.services.RunnableSecond;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +38,6 @@ public class MainController {
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        ArrayList<ResultData> d = new ArrayList<>();
         Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
         for (Long num: array){
             executor.execute(new RunnableFirst(results, num));
@@ -68,6 +68,14 @@ public class MainController {
 
     @GetMapping
     public ResponseEntity<?> get(@RequestParam(name = "param") Optional<Long[]> array) {
-        return ResponseEntity.ok().build();
+
+        if (!array.isPresent()){
+            return ResponseEntity.ok(Arrays.asList(resultDataDao.findAll()));
+        }
+        ArrayList<ResultData> toResponse = new ArrayList<>();
+        for (Long l: array.get()){
+            toResponse.add(resultDataDao.findByNum(l));
+        }
+        return ResponseEntity.ok(toResponse.toArray());
     }
 }

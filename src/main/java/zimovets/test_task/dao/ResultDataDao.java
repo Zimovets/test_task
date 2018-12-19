@@ -6,4 +6,5 @@ import zimovets.test_task.entity.ResultData;
 
 @Repository
 public interface ResultDataDao extends CrudRepository<ResultData, Long>{
+    ResultData findByNum (Long num);
 }
