@@ -11,13 +11,22 @@ import java.time.LocalDateTime;
 @Table(name = "result_data")
 public class ResultData {
 
+    public ResultData() {
+    }
+
+    public ResultData(Long num, String result, LocalDateTime createTime) {
+        this.num = num;
+        this.result = result;
+        this.createTime = createTime;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "num")
-    private Integer num;
+    private Long num;
 
     @Column(name = "result")
     private String result;
@@ -33,11 +42,11 @@ public class ResultData {
         this.id = id;
     }
 
-    public Integer getNum() {
+    public Long getNum() {
         return num;
     }
 
-    public void setNum(Integer num) {
+    public void setNum(Long num) {
         this.num = num;
     }
 

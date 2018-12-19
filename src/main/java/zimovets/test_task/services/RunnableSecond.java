@@ -17,17 +17,21 @@ public class RunnableSecond implements Runnable{
 
     @Override
     public void run() {
+        System.out.println("Run Second" + Thread.currentThread().getName());
         if (!results.containsKey(input)){
             DataChangeLog currentData = new DataChangeLog(input);
             currentData.setSecondResult(DataHandler.method2(input));
+            results.put(input, currentData);
         }else{
             DataChangeLog oldData = results.get(input);
             if (oldData.getResult().equals("")){
                 oldData.setSecondResult(DataHandler.method1(input));
                 oldData.setResult(DataHandler.combine(oldData.getFirstResult(), oldData.getSecondResult()));
+                System.out.println("Result");
             }else{
                 oldData.setResult(oldData.getResult() + oldData.getResult());
             }
         }
+
     }
 }

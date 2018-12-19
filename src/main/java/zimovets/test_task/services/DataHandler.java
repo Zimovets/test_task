@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class DataHandler {
 
     public static String method1(Long value) {
+        System.out.println("Method 1 sleep");
         try {
             Thread.sleep(Double.valueOf(Math.random()*2000).longValue() ) ;
         } catch (InterruptedException e) {
@@ -13,6 +14,7 @@ public class DataHandler {
     }
 
     public static String method2(Long value) {
+        System.out.println("Method 2 sleep");
         try {
             Thread.sleep(Double.valueOf(Math.random()*2000).longValue() ) ;
         } catch (InterruptedException e) {

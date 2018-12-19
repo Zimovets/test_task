@@ -11,29 +11,58 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import zimovets.test_task.dao.ResultDataDao;
 import zimovets.test_task.entity.DataChangeLog;
+import zimovets.test_task.entity.ResultData;
+import zimovets.test_task.services.RunnableFirst;
+import zimovets.test_task.services.RunnableSecond;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/main")
 public class MainController {
 
-    ExecutorService executor = Executors.newFixedThreadPool(10);
+
 
     @Autowired
     ResultDataDao resultDataDao;
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
         for (Long num: array){
-            //executor.execute();
+            executor.execute(new RunnableFirst(results, num));
+            System.out.println("add task first");
+            executor.execute(new RunnableSecond(results, num));
+            System.out.println("add task second");
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        executor.shutdown();
+
+        while (!executor.isTerminated()) {
+            try {
+                System.out.println("Termination!!!");
+                executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ArrayList<DataChangeLog>  res = new ArrayList<>(results.values());
+
+        for (DataChangeLog data: res){
+            resultDataDao.save(new ResultData(data.getNum(), data.getResult(), LocalDateTime.now()));
+        }
+
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping
