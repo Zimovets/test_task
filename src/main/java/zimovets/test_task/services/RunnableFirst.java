@@ -29,6 +29,7 @@ public class RunnableFirst implements Runnable {
                 oldData.setResult(DataHandler.combine(oldData.getFirstResult(), oldData.getSecondResult()));
                 System.out.println("Result");
             }else{
+                System.out.println("Dublicat-----------------------");
                 oldData.setResult(oldData.getResult() + oldData.getResult());
             }
         }

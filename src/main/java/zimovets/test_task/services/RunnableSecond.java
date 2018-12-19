@@ -25,13 +25,13 @@ public class RunnableSecond implements Runnable{
         }else{
             DataChangeLog oldData = results.get(input);
             if (oldData.getResult().equals("")){
-                oldData.setSecondResult(DataHandler.method1(input));
+                oldData.setSecondResult(DataHandler.method2(input));
                 oldData.setResult(DataHandler.combine(oldData.getFirstResult(), oldData.getSecondResult()));
                 System.out.println("Result");
             }else{
+                System.out.println("Dublicat-----------------------");
                 oldData.setResult(oldData.getResult() + oldData.getResult());
             }
         }
-
     }
 }

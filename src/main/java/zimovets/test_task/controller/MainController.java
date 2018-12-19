@@ -37,6 +37,7 @@ public class MainController {
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
         ExecutorService executor = Executors.newFixedThreadPool(1);
+        ArrayList<ResultData> d = new ArrayList<>();
         Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
         for (Long num: array){
             executor.execute(new RunnableFirst(results, num));
@@ -44,7 +45,7 @@ public class MainController {
             executor.execute(new RunnableSecond(results, num));
             System.out.println("add task second");
         }
-
+        System.out.println("no tasks ----------------------");
         executor.shutdown();
 
         while (!executor.isTerminated()) {
