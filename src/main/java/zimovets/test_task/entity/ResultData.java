@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "result_data")
@@ -23,7 +24,7 @@ public class ResultData {
     private String result;
 
     @Column(name = "create_time")
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     public Long getId() {
         return id;
@@ -41,11 +42,11 @@ public class ResultData {
         this.num = num;
     }
 
-    public Timestamp getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 }
