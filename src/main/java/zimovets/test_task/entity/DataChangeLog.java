@@ -2,30 +2,13 @@ package zimovets.test_task.entity;
 
 public class DataChangeLog {
 
-    private boolean first = false;
-    private boolean second = false;
     private Long num;
-    private String result;
+    private String firstResult = "";
+    private String secondResult = "";
+    private String result = "";
 
-    public DataChangeLog(Long num, String result) {
+    public DataChangeLog(Long num) {
         this.num = num;
-        this.result = result;
-    }
-
-    public boolean isFirst() {
-        return first;
-    }
-
-    public void setFirst(boolean first) {
-        this.first = first;
-    }
-
-    public boolean isSecond() {
-        return second;
-    }
-
-    public void setSecond(boolean second) {
-        this.second = second;
     }
 
     public Long getNum() {
@@ -34,6 +17,22 @@ public class DataChangeLog {
 
     public void setNum(Long num) {
         this.num = num;
+    }
+
+    public String getFirstResult() {
+        return firstResult;
+    }
+
+    public void setFirstResult(String firstResult) {
+        this.firstResult = firstResult;
+    }
+
+    public String getSecondResult() {
+        return secondResult;
+    }
+
+    public void setSecondResult(String secondResult) {
+        this.secondResult = secondResult;
     }
 
     public String getResult() {
@@ -51,17 +50,17 @@ public class DataChangeLog {
 
         DataChangeLog that = (DataChangeLog) o;
 
-        if (first != that.first) return false;
-        if (second != that.second) return false;
         if (!num.equals(that.num)) return false;
+        if (!firstResult.equals(that.firstResult)) return false;
+        if (!secondResult.equals(that.secondResult)) return false;
         return result.equals(that.result);
     }
 
     @Override
     public int hashCode() {
-        int result1 = (first ? 1 : 0);
-        result1 = 31 * result1 + (second ? 1 : 0);
-        result1 = 31 * result1 + num.hashCode();
+        int result1 = num.hashCode();
+        result1 = 31 * result1 + firstResult.hashCode();
+        result1 = 31 * result1 + secondResult.hashCode();
         result1 = 31 * result1 + result.hashCode();
         return result1;
     }

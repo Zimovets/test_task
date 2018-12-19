@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import zimovets.test_task.dao.ResultDataDao;
+import zimovets.test_task.entity.DataChangeLog;
 
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class MainController {
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
-        Map<Long, String> results = new ConcurrentHashMap<>();
+        Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
         for (Long num: array){
             //executor.execute();
         }
