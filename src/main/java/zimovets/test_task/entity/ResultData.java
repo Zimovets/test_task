@@ -49,4 +49,26 @@ public class ResultData {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ResultData that = (ResultData) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!num.equals(that.num)) return false;
+        if (!result.equals(that.result)) return false;
+        return createTime.equals(that.createTime);
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = id.hashCode();
+        result1 = 31 * result1 + num.hashCode();
+        result1 = 31 * result1 + result.hashCode();
+        result1 = 31 * result1 + createTime.hashCode();
+        return result1;
+    }
 }

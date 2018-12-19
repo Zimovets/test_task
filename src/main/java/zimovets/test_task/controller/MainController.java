@@ -11,17 +11,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import zimovets.test_task.dao.ResultDataDao;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/main")
 public class MainController {
+
+    ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Autowired
     ResultDataDao resultDataDao;
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
+        Map<Long, String> results = new ConcurrentHashMap<>();
+        for (Long num: array){
+            //executor.execute();
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
