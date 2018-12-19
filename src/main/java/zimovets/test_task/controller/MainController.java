@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,8 +38,8 @@ public class MainController {
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Long[] array) {
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-        Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        Map<Long, DataChangeLog> results = new HashMap<>();
         for (Long num: array){
             executor.execute(new RunnableFirst(results, num));
             System.out.println("add task first");
