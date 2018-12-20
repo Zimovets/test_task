@@ -17,21 +17,20 @@ public class RunnableSecond implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Run Second" + Thread.currentThread().getName());
+        System.out.println("Run Second      " + Thread.currentThread().getName());
 
         if (!results.containsKey(input)) {
             DataChangeLog currentData = new DataChangeLog(input);
             currentData.setSecondResult(DataHandler.method2(input));
             results.put(input, currentData);
         } else {
-            DataChangeLog oldData = results.get(input);
-            if (oldData.getResult().equals("")) {
-                oldData.setSecondResult(DataHandler.method2(input));
-                oldData.setResult(DataHandler.combine(oldData.getFirstResult(), oldData.getSecondResult()));
-                System.out.println("Result");
-            } else {
-                System.out.println("Dublicat-----------------------");
-                oldData.setResult(oldData.getResult() + oldData.getResult());
+            DataChangeLog dataChangeLog = results.get(input);
+            if (!dataChangeLog.getFirstResult().equals("") && !dataChangeLog.getFirstResult().equals("")){
+                dataChangeLog.setResult(dataChangeLog.getFirstResult() + dataChangeLog.getSecondResult());
+            } else if (dataChangeLog.getFirstResult().equals("")){
+                dataChangeLog.setFirstResult(DataHandler.method1(input));
+            }else if (dataChangeLog.getSecondResult().equals("")){
+                dataChangeLog.setSecondResult(DataHandler.method2(input));
             }
         }
     }

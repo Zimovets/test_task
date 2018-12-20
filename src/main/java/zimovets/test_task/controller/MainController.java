@@ -41,7 +41,7 @@ public class MainController {
         for (Long num : array) {
             executor.execute(new RunnableFirst(results, num));
             System.out.println("add task first");
-            executor.execute(new RunnableSecond(results, num));
+            executor.execute(new RunnableFirst(results, num));
             System.out.println("add task second");
 
         }
