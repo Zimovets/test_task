@@ -14,6 +14,7 @@ import zimovets.test_task.entity.ResultData;
 import zimovets.test_task.services.RunnableFirst;
 import zimovets.test_task.services.RunnableSecond;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class MainController {
     public ResponseEntity<?> post(@RequestBody Long[] array) {
         ExecutorService executor = Executors.newFixedThreadPool(5);
 
-        Map<Long, DataChangeLog> results = new ConcurrentHashMap<>();
+        Map<Long, DataChangeLog> results = createLogMap(array);
         for (Long num : array) {
             executor.execute(new RunnableFirst(results, num));
             System.out.println("add task first");
@@ -77,5 +78,17 @@ public class MainController {
             toResponse.add(resultDataDao.findByNum(l));
         }
         return ResponseEntity.ok(toResponse.toArray());
+    }
+
+    private Map<Long, DataChangeLog> createLogMap(Long[] array){
+        Map<Long, DataChangeLog> result = new HashMap<>();
+        for (Long l : array){
+            if (!result.containsKey(l)){
+                result.put(l, new DataChangeLog());
+            }else{
+                result.get(l).increasDublicate();
+            }
+        }
+        return result;
     }
 }

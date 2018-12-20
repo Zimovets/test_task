@@ -2,21 +2,12 @@ package zimovets.test_task.entity;
 
 public class DataChangeLog {
 
-    private Long num;
     private String firstResult = "";
     private String secondResult = "";
-    private String result = "";
+    private Integer dublicat = 1;
 
-    public DataChangeLog(Long num) {
-        this.num = num;
-    }
-
-    public Long getNum() {
-        return num;
-    }
-
-    public void setNum(Long num) {
-        this.num = num;
+    public void increasDublicate(){
+        dublicat++;
     }
 
     public String getFirstResult() {
@@ -35,12 +26,12 @@ public class DataChangeLog {
         this.secondResult = secondResult;
     }
 
-    public String getResult() {
-        return result;
+    public Integer getDublicat() {
+        return dublicat;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setDublicat(Integer dublicat) {
+        this.dublicat = dublicat;
     }
 
     @Override
@@ -50,18 +41,16 @@ public class DataChangeLog {
 
         DataChangeLog that = (DataChangeLog) o;
 
-        if (!num.equals(that.num)) return false;
-        if (!firstResult.equals(that.firstResult)) return false;
-        if (!secondResult.equals(that.secondResult)) return false;
-        return result.equals(that.result);
+        if (firstResult != null ? !firstResult.equals(that.firstResult) : that.firstResult != null) return false;
+        if (secondResult != null ? !secondResult.equals(that.secondResult) : that.secondResult != null) return false;
+        return dublicat != null ? dublicat.equals(that.dublicat) : that.dublicat == null;
     }
 
     @Override
     public int hashCode() {
-        int result1 = num.hashCode();
-        result1 = 31 * result1 + firstResult.hashCode();
-        result1 = 31 * result1 + secondResult.hashCode();
-        result1 = 31 * result1 + result.hashCode();
-        return result1;
+        int result = firstResult != null ? firstResult.hashCode() : 0;
+        result = 31 * result + (secondResult != null ? secondResult.hashCode() : 0);
+        result = 31 * result + (dublicat != null ? dublicat.hashCode() : 0);
+        return result;
     }
 }

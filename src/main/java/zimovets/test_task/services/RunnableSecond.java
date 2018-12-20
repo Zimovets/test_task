@@ -17,21 +17,7 @@ public class RunnableSecond implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Run Second      " + Thread.currentThread().getName());
-
-        if (!results.containsKey(input)) {
-            DataChangeLog currentData = new DataChangeLog(input);
-            currentData.setSecondResult(DataHandler.method2(input));
-            results.put(input, currentData);
-        } else {
-            DataChangeLog dataChangeLog = results.get(input);
-            if (!dataChangeLog.getFirstResult().equals("") && !dataChangeLog.getFirstResult().equals("")){
-                dataChangeLog.setResult(dataChangeLog.getFirstResult() + dataChangeLog.getSecondResult());
-            } else if (dataChangeLog.getFirstResult().equals("")){
-                dataChangeLog.setFirstResult(DataHandler.method1(input));
-            }else if (dataChangeLog.getSecondResult().equals("")){
-                dataChangeLog.setSecondResult(DataHandler.method2(input));
-            }
-        }
+        DataChangeLog dataChangeLog = results.get(input);
+        dataChangeLog.setSecondResult(DataHandler.method2(input));
     }
 }
