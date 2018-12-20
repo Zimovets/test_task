@@ -15,14 +15,10 @@ import zimovets.test_task.services.DataHandler;
 import zimovets.test_task.services.RunnableFirst;
 import zimovets.test_task.services.RunnableSecond;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -42,16 +38,12 @@ public class MainController {
         Map<Long, DataChangeLog> results = DataHandler.createLogMap(array);
         for (Long num : array) {
             executor.execute(new RunnableFirst(results, num));
-            System.out.println("add task first");
             executor.execute(new RunnableSecond(results, num));
-            System.out.println("add task second");
         }
-        System.out.println("no tasks ----------------------");
         executor.shutdown();
 
         while (!executor.isTerminated()) {
             try {
-                System.out.println("Termination!!!");
                 executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
