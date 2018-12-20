@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import zimovets.test_task.dao.ResultDataDao;
 import zimovets.test_task.entity.DataChangeLog;
 import zimovets.test_task.entity.ResultData;
+import zimovets.test_task.services.DataHandler;
 import zimovets.test_task.services.RunnableFirst;
 import zimovets.test_task.services.RunnableSecond;
 
@@ -38,13 +39,12 @@ public class MainController {
     public ResponseEntity<?> post(@RequestBody Long[] array) {
         ExecutorService executor = Executors.newFixedThreadPool(5);
 
-        Map<Long, DataChangeLog> results = createLogMap(array);
+        Map<Long, DataChangeLog> results = DataHandler.createLogMap(array);
         for (Long num : array) {
             executor.execute(new RunnableFirst(results, num));
             System.out.println("add task first");
-            executor.execute(new RunnableFirst(results, num));
+            executor.execute(new RunnableSecond(results, num));
             System.out.println("add task second");
-
         }
         System.out.println("no tasks ----------------------");
         executor.shutdown();
@@ -57,13 +57,10 @@ public class MainController {
                 e.printStackTrace();
             }
         }
-
-        ArrayList<DataChangeLog> res = new ArrayList<>(results.values());
-
-        for (DataChangeLog data : res) {
-            resultDataDao.save(new ResultData(data.getNum(), data.getResult(), LocalDateTime.now()));
+        ArrayList<ResultData> res = DataHandler.convertToResult(results);
+        for (ResultData data : res) {
+            resultDataDao.save(data);
         }
-
         return ResponseEntity.ok(res);
     }
 
@@ -78,17 +75,5 @@ public class MainController {
             toResponse.add(resultDataDao.findByNum(l));
         }
         return ResponseEntity.ok(toResponse.toArray());
-    }
-
-    private Map<Long, DataChangeLog> createLogMap(Long[] array){
-        Map<Long, DataChangeLog> result = new HashMap<>();
-        for (Long l : array){
-            if (!result.containsKey(l)){
-                result.put(l, new DataChangeLog());
-            }else{
-                result.get(l).increasDublicate();
-            }
-        }
-        return result;
     }
 }
